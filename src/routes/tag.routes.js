@@ -8,12 +8,19 @@ import {
 } from "../controllers/tag.controller.js";
 
 import { authenticate } from "../middlewares/auth.middleware.js";
+import {
+    createTagValidation,
+    updateTagValidation,
+} from "../middlewares/validations/tag.validation.js";
+import { validate } from "../middlewares/validate.js";
 
 const router = Router();
 
 router.post(
     "/",
     authenticate,
+    createTagValidation,
+    validate,
     createTag
 );
 
@@ -26,6 +33,8 @@ router.get(
 router.put(
     "/:id",
     authenticate,
+    updateTagValidation,
+    validate,
     updateTag
 );
 
