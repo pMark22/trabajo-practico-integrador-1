@@ -9,12 +9,19 @@ import {
 } from "../controllers/article.controller.js";
 
 import { authenticate } from "../middlewares/auth.middleware.js";
+import {
+    createArticleValidation,
+    updateArticleValidation,
+} from "../middlewares/validations/article.validation.js";
+import { validate } from "../middlewares/validate.js";
 
 const router = Router();
 
 router.post(
     "/",
     authenticate,
+    createArticleValidation,
+    validate,
     createArticle
 );
 
@@ -33,6 +40,8 @@ router.get(
 router.put(
     "/:id",
     authenticate,
+    updateArticleValidation,
+    validate,
     updateArticle
 );
 
