@@ -11,6 +11,7 @@ import authRoutes from "./src/routes/auth.routes.js";
 import profileRoutes from "./src/routes/profile.routes.js";
 import articleRoutes from "./src/routes/article.routes.js";
 import tagRoutes from "./src/routes/tag.routes.js";
+import articleTagRoutes from "./src/routes/articleTag.routes.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/tags", tagRoutes);
+app.use("/api/articles", articleTagRoutes);
 
 const startServer = async () => {
     await startDB();

@@ -15,11 +15,21 @@ export const ArticleTag = sequelize.define(
         article_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            references: {
+                model: Article,
+                key: "id",
+            },
+            onDelete: "CASCADE",
         },
 
         tag_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            references: {
+                model: Tag,
+                key: "id",
+            },
+            onDelete: "CASCADE",
         },
     },
     {
