@@ -32,7 +32,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/tags", tagRoutes);
-app.use("/api/articles", articleTagRoutes);
+app.use("/api/articles-tags", articleTagRoutes);
 app.use("/api/users", userRoutes);
 
 const startServer = async () => {
