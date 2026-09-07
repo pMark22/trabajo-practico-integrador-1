@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import { startDB, sequelize } from "./src/config/database.js";
 import "./src/models/user.model.js";
+import "./src/models/user.model.js";
+import "./src/models/profile.model.js";
 
 dotenv.config();
 
