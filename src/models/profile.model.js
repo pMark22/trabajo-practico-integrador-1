@@ -49,8 +49,14 @@ export const Profile = sequelize.define(
     }
 );
 
-// Relaciones
-// Profile.belongsTo(User, {
-//     foreignKey: "user_id",
-//     as: "user",
-// });
+// Relación uno a uno
+User.hasOne(Profile, {
+    foreignKey: "user_id",
+    as: "profile",
+    onDelete: "CASCADE",
+});
+
+Profile.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "user",
+});
