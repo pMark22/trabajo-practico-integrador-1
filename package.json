@@ -1,0 +1,26 @@
+{
+  "name": "trabajo-practico-integrador-1",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/pMark22/trabajo-practico-integrador-1#readme",
+  "bugs": {
+    "url": "https://github.com/pMark22/trabajo-practico-integrador-1/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pMark22/trabajo-practico-integrador-1.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch app.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.24.3",
+    "sequelize": "^6.37.8"
+  }
+}
