@@ -27,7 +27,13 @@ export const getProfile = async (req, res) => {
 
 export const createProfile = async (req, res) => {
     try {
-        const { first_name, last_name, biography, avatar_url, birth_date } = req.body;
+        const {
+            first_name,
+            last_name,
+            biography,
+            avatar_url,
+            birth_date,
+        } = req.body;
 
         const existingProfile = await Profile.findOne({
             where: {
@@ -60,6 +66,50 @@ export const createProfile = async (req, res) => {
 
         res.status(500).json({
             message: "Error al crear perfil",
+        });
+    }
+};
+
+export const updateProfile = async (req, res) => {
+    try {
+        const {
+            first_name,
+            last_name,
+            biography,
+            avatar_url,
+            birth_date,
+        } = req.body;
+
+        const profile = await Profile.findOne({
+            where: {
+                user_id: req.user.id,
+            },
+        });
+
+        if (!profile) {
+            return res.status(404).json({
+                message: "Perfil no encontrado",
+            });
+        }
+
+        await profile.update({
+            first_name,
+            last_name,
+            biography,
+            avatar_url,
+            birth_date,
+        });
+
+        res.status(200).json({
+            message: "Perfil actualizado correctamente",
+            profile,
+        });
+
+    } catch (error) {
+        console.error("Error al actualizar perfil:", error);
+
+        res.status(500).json({
+            message: "Error al actualizar perfil",
         });
     }
 };
