@@ -9,6 +9,7 @@ import "./src/models/tag.model.js";
 import "./src/models/articleTag.model.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import profileRoutes from "./src/routes/profile.routes.js";
+import articleRoutes from "./src/routes/article.routes.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/articles", articleRoutes);
 
 const startServer = async () => {
     await startDB();
