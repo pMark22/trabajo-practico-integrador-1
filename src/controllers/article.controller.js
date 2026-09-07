@@ -108,3 +108,29 @@ export const updateArticle = async (req, res) => {
         });
     }
 };
+export const deleteArticle = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const article = await Article.findByPk(id);
+
+        if (!article) {
+            return res.status(404).json({
+                message: "Artículo no encontrado",
+            });
+        }
+
+        await article.destroy();
+
+        res.status(200).json({
+            message: "Artículo eliminado correctamente",
+        });
+
+    } catch (error) {
+        console.error("Error al eliminar artículo:", error);
+
+        res.status(500).json({
+            message: "Error al eliminar artículo",
+        });
+    }
+};

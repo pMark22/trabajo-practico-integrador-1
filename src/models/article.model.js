@@ -40,5 +40,7 @@ export const Article = sequelize.define(
         tableName: "articles",
         createdAt: "created_at",
         updatedAt: "updated_at",
+        deletedAt: "deleted_at",
+        paranoid: true,
     }
 );
