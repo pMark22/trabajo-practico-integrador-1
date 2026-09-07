@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
+import { User } from "./user.model.js";
 
 export const Profile = sequelize.define(
     "Profile",
@@ -47,3 +48,9 @@ export const Profile = sequelize.define(
         updatedAt: "updated_at",
     }
 );
+
+// Relaciones
+// Profile.belongsTo(User, {
+//     foreignKey: "user_id",
+//     as: "user",
+// });
