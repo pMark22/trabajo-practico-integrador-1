@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 export const createArticleValidation = [
     body("title")
@@ -44,4 +44,21 @@ export const updateArticleValidation = [
         .optional()
         .isIn(["published", "archived"])
         .withMessage("El estado debe ser published o archived"),
+];
+
+export const articleIdValidation = [
+    param("id")
+        .isInt()
+        .withMessage("El ID del artículo debe ser un número entero"),
+];
+
+export const userArticleIdValidation = [
+    param("userId")
+        .isInt()
+        .withMessage("El ID del usuario debe ser un número entero"),
+
+    param("id")
+        .optional()
+        .isInt()
+        .withMessage("El ID del artículo debe ser un número entero"),
 ];

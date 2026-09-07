@@ -22,6 +22,7 @@ export const ownerMiddleware = async (req, res, next) => {
         req.article = article;
 
         next();
+
     } catch (error) {
         console.error("Error al verificar propietario:", error);
 
