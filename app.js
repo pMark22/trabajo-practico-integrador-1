@@ -7,12 +7,17 @@ import "./src/models/profile.model.js";
 import "./src/models/article.model.js";
 import "./src/models/tag.model.js";
 import "./src/models/articleTag.model.js";
+import authRoutes from "./src/routes/auth.routes.js";
 
 dotenv.config();
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+
+app.use("/api/auth", authRoutes);
 
 const startServer = async () => {
     await startDB();
