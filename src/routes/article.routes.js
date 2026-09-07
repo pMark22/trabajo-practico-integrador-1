@@ -9,10 +9,13 @@ import {
 } from "../controllers/article.controller.js";
 
 import { authenticate } from "../middlewares/auth.middleware.js";
+import { ownerMiddleware } from "../middlewares/owner.middleware.js";
+
 import {
     createArticleValidation,
     updateArticleValidation,
 } from "../middlewares/validations/article.validation.js";
+
 import { validate } from "../middlewares/validate.js";
 
 const router = Router();
@@ -40,6 +43,7 @@ router.get(
 router.put(
     "/:id",
     authenticate,
+    ownerMiddleware,
     updateArticleValidation,
     validate,
     updateArticle
@@ -48,6 +52,7 @@ router.put(
 router.delete(
     "/:id",
     authenticate,
+    ownerMiddleware,
     deleteArticle
 );
 

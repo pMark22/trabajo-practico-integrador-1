@@ -1,13 +1,22 @@
 import { User } from "../models/user.model.js";
+import { Profile } from "../models/profile.model.js";
+
 import {
     hashPassword,
     comparePassword,
 } from "../helpers/bcript.helper.js";
+
 import { generateToken } from "../helpers/jwt.helper.js";
 
 export const register = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const {
+            username,
+            email,
+            password,
+            first_name,
+            last_name,
+        } = req.body;
 
         const hashedPassword = await hashPassword(password);
 
@@ -15,6 +24,12 @@ export const register = async (req, res) => {
             username,
             email,
             password: hashedPassword,
+        });
+
+        await Profile.create({
+            user_id: user.id,
+            first_name,
+            last_name,
         });
 
         res.status(201).json({
@@ -41,7 +56,7 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
 
         const user = await User.findOne({
-            where: { email }
+            where: { email },
         });
 
         if (!user) {
@@ -66,9 +81,15 @@ export const login = async (req, res) => {
             role: user.role,
         });
 
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60 * 60 * 1000,
+        });
+
         res.status(200).json({
             message: "Inicio de sesión exitoso",
-            token,
             user: {
                 id: user.id,
                 username: user.username,
@@ -82,6 +103,23 @@ export const login = async (req, res) => {
 
         res.status(500).json({
             message: "Error al iniciar sesión",
+        });
+    }
+};
+
+export const logout = async (req, res) => {
+    try {
+        res.clearCookie("token");
+
+        res.status(200).json({
+            message: "Sesión cerrada correctamente",
+        });
+
+    } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+
+        res.status(500).json({
+            message: "Error al cerrar sesión",
         });
     }
 };
