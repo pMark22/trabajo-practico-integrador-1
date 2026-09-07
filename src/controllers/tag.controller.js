@@ -21,3 +21,18 @@ export const createTag = async (req, res) => {
         });
     }
 };
+
+export const getTags = async (req, res) => {
+    try {
+        const tags = await Tag.findAll();
+
+        res.status(200).json(tags);
+
+    } catch (error) {
+        console.error("Error al obtener etiquetas:", error);
+
+        res.status(500).json({
+            message: "Error al obtener etiquetas",
+        });
+    }
+};
