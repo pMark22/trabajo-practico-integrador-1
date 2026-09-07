@@ -4,6 +4,8 @@ import { startDB, sequelize } from "./src/config/database.js";
 import "./src/models/user.model.js";
 import "./src/models/user.model.js";
 import "./src/models/profile.model.js";
+import "./src/models/article.model.js";
+import "./src/models/tag.model.js";
 
 dotenv.config();
 
