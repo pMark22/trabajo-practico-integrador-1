@@ -30,3 +30,18 @@ export const createArticle = async (req, res) => {
         });
     }
 };
+
+export const getArticles = async (req, res) => {
+    try {
+        const articles = await Article.findAll();
+
+        res.status(200).json(articles);
+
+    } catch (error) {
+        console.error("Error al obtener artículos:", error);
+
+        res.status(500).json({
+            message: "Error al obtener artículos",
+        });
+    }
+};
