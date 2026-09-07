@@ -4,14 +4,25 @@ import { Tag } from "../models/tag.model.js";
 
 export const addTagToArticle = async (req, res) => {
     try {
-        const { articleId } = req.params;
-        const { tag_id } = req.body;
+        const {
+            article_id,
+            tag_id,
+        } = req.body;
 
-        const article = await Article.findByPk(articleId);
+        const article = await Article.findByPk(article_id);
 
         if (!article) {
             return res.status(404).json({
                 message: "Artículo no encontrado",
+            });
+        }
+
+        if (
+            req.user.role !== "admin" &&
+            article.user_id !== req.user.id
+        ) {
+            return res.status(403).json({
+                message: "No tienes autorización para modificar este artículo",
             });
         }
 
@@ -25,7 +36,7 @@ export const addTagToArticle = async (req, res) => {
 
         const existingRelation = await ArticleTag.findOne({
             where: {
-                article_id: articleId,
+                article_id,
                 tag_id,
             },
         });
@@ -37,7 +48,7 @@ export const addTagToArticle = async (req, res) => {
         }
 
         const relation = await ArticleTag.create({
-            article_id: articleId,
+            article_id,
             tag_id,
         });
 
@@ -51,6 +62,50 @@ export const addTagToArticle = async (req, res) => {
 
         res.status(500).json({
             message: "Error al asociar etiqueta al artículo",
+        });
+    }
+};
+
+export const deleteTagFromArticle = async (req, res) => {
+    try {
+        const { articleTagId } = req.params;
+
+        const relation = await ArticleTag.findByPk(articleTagId);
+
+        if (!relation) {
+            return res.status(404).json({
+                message: "Asociación entre artículo y etiqueta no encontrada",
+            });
+        }
+
+        const article = await Article.findByPk(relation.article_id);
+
+        if (!article) {
+            return res.status(404).json({
+                message: "Artículo no encontrado",
+            });
+        }
+
+        if (
+            req.user.role !== "admin" &&
+            article.user_id !== req.user.id
+        ) {
+            return res.status(403).json({
+                message: "No tienes autorización para modificar este artículo",
+            });
+        }
+
+        await relation.destroy();
+
+        res.status(200).json({
+            message: "Etiqueta desvinculada del artículo correctamente",
+        });
+
+    } catch (error) {
+        console.error("Error al desvincular etiqueta:", error);
+
+        res.status(500).json({
+            message: "Error al desvincular etiqueta del artículo",
         });
     }
 };
