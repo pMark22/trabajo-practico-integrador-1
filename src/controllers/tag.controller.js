@@ -36,3 +36,61 @@ export const getTags = async (req, res) => {
         });
     }
 };
+
+export const updateTag = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+
+        const tag = await Tag.findByPk(id);
+
+        if (!tag) {
+            return res.status(404).json({
+                message: "Etiqueta no encontrada",
+            });
+        }
+
+        await tag.update({
+            name,
+        });
+
+        res.status(200).json({
+            message: "Etiqueta actualizada correctamente",
+            tag,
+        });
+
+    } catch (error) {
+        console.error("Error al actualizar etiqueta:", error);
+
+        res.status(500).json({
+            message: "Error al actualizar etiqueta",
+        });
+    }
+};
+
+export const deleteTag = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const tag = await Tag.findByPk(id);
+
+        if (!tag) {
+            return res.status(404).json({
+                message: "Etiqueta no encontrada",
+            });
+        }
+
+        await tag.destroy();
+
+        res.status(200).json({
+            message: "Etiqueta eliminada correctamente",
+        });
+
+    } catch (error) {
+        console.error("Error al eliminar etiqueta:", error);
+
+        res.status(500).json({
+            message: "Error al eliminar etiqueta",
+        });
+    }
+};
