@@ -1,12 +1,15 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
+import {
+    hashPassword,
+    comparePassword,
+} from "../helpers/bcript.helper.js";
+import { generateToken } from "../helpers/jwt.helper.js";
 
 export const register = async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await hashPassword(password);
 
         const user = await User.create({
             username,
@@ -47,7 +50,7 @@ export const login = async (req, res) => {
             });
         }
 
-        const passwordCorrect = await bcrypt.compare(
+        const passwordCorrect = await comparePassword(
             password,
             user.password
         );
@@ -58,16 +61,10 @@ export const login = async (req, res) => {
             });
         }
 
-        const token = jwt.sign(
-            {
-                id: user.id,
-                role: user.role,
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "1h",
-            }
-        );
+        const token = generateToken({
+            id: user.id,
+            role: user.role,
+        });
 
         res.status(200).json({
             message: "Inicio de sesión exitoso",

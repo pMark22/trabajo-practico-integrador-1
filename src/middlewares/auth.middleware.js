@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import { verifyToken } from "../helpers/jwt.helper.js";
 
 export const authenticate = (req, res, next) => {
     try {
@@ -18,11 +18,12 @@ export const authenticate = (req, res, next) => {
             });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = verifyToken(token);
 
         req.user = decoded;
 
         next();
+
     } catch (error) {
         return res.status(401).json({
             message: "Token inválido o expirado",
